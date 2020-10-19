@@ -23,18 +23,19 @@ public class RemoteService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        return binder;
+        return iServiceBinder;
     }
 
-     IService.Stub binder = new IService.Stub() {
 
-        @Override
-        public boolean isValueChanged() throws RemoteException {
+     IService.Stub iServiceBinder = new IService.Stub() {
 
-            return false;
-        }
+         @Override
+         public int getNumber() throws RemoteException {
+             Random random = new Random();
+             return random.nextInt(100);
+         }
 
-        @Override
+         @Override
         public void registerCallback(ICallback callback) throws RemoteException {
             if (callback != null && mCallbacks != null) {
                 mCallbacks.register(callback);
@@ -49,35 +50,10 @@ public class RemoteService extends Service {
         }
     };
 
-
-
-
     @Override
     public void onDestroy() {
         mCallbacks.kill();
         super.onDestroy();
-    }
-
-    private void callBack() {
-        if (mCallbacks == null) {
-            return;
-        }
-        Random random = new Random();
-        mCallbacks.beginBroadcast();
-        Handler handler = new Handler();
-        for (int i = 0; i < mCallbacks.getRegisteredCallbackCount(); i++) {
-            int finalI = i;
-            int finalI1 = i;
-            handler.postDelayed(() -> {
-                    ICallback cb = mCallbacks.getBroadcastItem(finalI1);
-                try {
-                    cb.onValueChanged(random.nextInt() + 100);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }, 5000);
-        }
-        mCallbacks.finishBroadcast();
     }
 
 }

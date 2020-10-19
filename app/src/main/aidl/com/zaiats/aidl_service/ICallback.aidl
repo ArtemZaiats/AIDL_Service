@@ -5,6 +5,6 @@ package com.zaiats.aidl_service;
 
 interface ICallback {
 
-    void onValueChanged(int number);
+    int onValueChanged();
 
 }

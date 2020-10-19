@@ -7,7 +7,7 @@ import com.zaiats.aidl_service.ICallback;
 
 interface IService {
 
-    boolean isValueChanged();
+    int getNumber();
     void registerCallback(ICallback cb);
     void unregisterCallback(ICallback cb);
 
