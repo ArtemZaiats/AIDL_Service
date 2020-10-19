@@ -7,7 +7,6 @@ import com.zaiats.aidl_service.ICallback;
 
 interface IService {
 
-    int getNumber();
     void registerCallback(ICallback cb);
     void unregisterCallback(ICallback cb);
 
